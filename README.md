@@ -5,9 +5,9 @@
 [![CodeQL](https://github.com/cisagov/skeleton-tf-root-module/workflows/CodeQL/badge.svg)](https://github.com/cisagov/skeleton-tf-root-module/actions/workflows/codeql-analysis.yml)
 
 This is a generic skeleton project that can be used to quickly get a
-new [cisagov](https://github.com/cisagov) [Terraform
-module](https://www.terraform.io/docs/modules/index.html) GitHub
-repository started.  This skeleton project contains [licensing
+new [cisagov](https://github.com/cisagov) [Terraform root
+module](https://developer.hashicorp.com/terraform/language/modules#the-root-module)
+GitHub repository started.  This skeleton project contains [licensing
 information](LICENSE), as well as [pre-commit
 hooks](https://pre-commit.com) and
 [GitHub Actions](https://github.com/features/actions) configurations
@@ -17,21 +17,35 @@ See the [Terraform
 documentation](https://www.terraform.io/docs/modules/index.html) for
 more details on Terraform modules and the standard module structure.
 
-## Usage ##
+## Pre-requisites ##
 
-```hcl
-module "example" {
-  source = "github.com/cisagov/skeleton-tf-root-module?ref=v1.1.0"
+- [Terraform](https://www.terraform.io/) installed on your system.
+- AWS CLI access [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
+  for the appropriate account on your system.
+- An accessible AWS S3 bucket to store Terraform state
+  (specified in [`backend.tf`](backend.tf)).
+- An accessible AWS DynamoDB database to store the Terraform state lock
+  (specified in [`backend.tf`](backend.tf)).
 
-  aws_region            = "us-west-1"
-  aws_availability_zone = "b"
-  subnet_id             = "subnet-0123456789abcdef0"
-}
-```
+## Building the Terraform-based infrastructure ##
 
-## Examples ##
+1. Create a Terraform workspace (if you haven't already done so) by running
+   `terraform workspace new <workspace_name>`.
+1. Create a `<workspace_name>.tfvars` file with all of the required
+   variables (see [Inputs](#inputs) below for details).
+1. Run the command `terraform init`.
+1. Create the Terraform infrastructure by running the command:
 
-- [Basic usage](https://github.com/cisagov/skeleton-tf-root-module/tree/develop/examples/basic_usage)
+   ```console
+   terraform apply -var-file=<workspace_name>.tfvars
+   ```
+
+## Tearing down the Terraform-based infrastructure ##
+
+1. Select the appropriate Terraform workspace by running
+   `terraform workspace select <workspace_name>`.
+1. Destroy the Terraform infrastructure in that workspace by running
+   `terraform destroy -var-file=<workspace_name>.tfvars`.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements ##
