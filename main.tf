@@ -5,7 +5,7 @@ module "example" {
   providers = {
     aws = aws
   }
-  source = "github.com/cisagov/skeleton-tf-module"
+  source = "github.com/cisagov/skeleton-tf-module?ref=v1.1.0"
 
   ami_owner_account_id  = var.ami_owner_account_id
   aws_availability_zone = var.aws_availability_zone

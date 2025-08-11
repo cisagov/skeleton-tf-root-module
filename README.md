@@ -65,7 +65,7 @@ more details on Terraform modules and the standard module structure.
 
 | Name | Source | Version |
 | ---- | ------ | ------- |
-| example | github.com/cisagov/skeleton-tf-module | n/a |
+| example | github.com/cisagov/skeleton-tf-module | v1.1.0 |
 
 ## Resources ##
 
