@@ -29,6 +29,29 @@ more details on Terraform modules and the standard module structure.
 
 ## Building the Terraform-based infrastructure ##
 
+1. Create a backend configuration file named `<environment>.tfconfig` containing
+   the name of the bucket where your environment's Terraform state is stored -
+   this file is required to initialize the Terraform backend in an environment:
+
+   ```hcl
+   bucket = "my-environment-terraform-state-bucket"
+   ```
+
+1. Initialize the Terraform backend for the environment using your backend
+   configuration file:
+
+   ```console
+   terraform init -backend-config=<environment>.tfconfig
+   ```
+
+   > [!NOTE]
+   > When performing this step for any additional environments (i.e. not your
+   > first environment), use the `-reconfigure` flag:
+   >
+   > ```console
+   > terraform init -backend-config=other-env.tfconfig -reconfigure
+   > ```
+
 1. Create a Terraform workspace (if you haven't already done so) by running
    `terraform workspace new <workspace_name>`.
 1. Create a `<workspace_name>.tfvars` file with all of the required
